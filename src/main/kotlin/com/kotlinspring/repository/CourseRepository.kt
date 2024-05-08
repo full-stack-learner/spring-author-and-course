@@ -8,6 +8,6 @@ interface CourseRepository : CrudRepository<Course, Int> {
 
     fun findByNameContaining(courseName : String) : List<Course>
 
-    @Query(value = "SELECT * FROM COURSES WHERE name LIKE %?1%", nativeQuery = true)
-    fun findCoursesByName(courseName : String) : List<Course>
+    @Query(value = "SELECT * FROM COURSES where name like %?1%", nativeQuery = true)
+    fun findCoursesbyName(courseName : String) : List<Course>
 }

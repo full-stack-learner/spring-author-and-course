@@ -33,7 +33,7 @@ class CourseControllerUnitTest {
     fun addCourse() {
 
         val courseDTO = CourseDTO(null, "Build Restful APIs using SpringBoot and Kotlin"
-            ,"Dilip Sundarraj")
+            ,"Dilip Sundarraj", 1)
 
         every { courseServiceMockk.addCourse(any()) } returns courseDTO(id = 1)
 
@@ -56,7 +56,7 @@ class CourseControllerUnitTest {
     fun addCourse_validation() {
 
         val courseDTO = CourseDTO(null, ""
-            ,"")
+            ,"", 1)
 
         every { courseServiceMockk.addCourse(any()) } returns courseDTO(id = 1)
 
@@ -78,7 +78,7 @@ class CourseControllerUnitTest {
     fun addCourse_runtimeException() {
 
         val courseDTO = CourseDTO(null, "Build Restful APIs using SpringBoot and Kotlin"
-            ,"Dilip Sundarraj")
+            ,"Dilip Sundarraj", 1)
 
         val errorMessage= "Unexpected Error occurred"
         every { courseServiceMockk.addCourse(any()) } throws RuntimeException(errorMessage)
