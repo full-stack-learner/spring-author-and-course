@@ -6,13 +6,14 @@ import com.kotlinspring.exception.CourseNotFoundException
 import com.kotlinspring.repository.CourseRepository
 import mu.KLogging
 import org.springframework.stereotype.Service
+import java.util.Optional
 
 @Service
 class CourseService(val courseRepository: CourseRepository) {
 
     companion object : KLogging()
 
-    fun addCourse(courseDTO: CourseDTO) : CourseDTO{
+    fun addCourse(courseDTO: CourseDTO): CourseDTO {
 
         val courseEntity = courseDTO.let {
             Course(null, it.name, it.category)
@@ -28,9 +29,13 @@ class CourseService(val courseRepository: CourseRepository) {
 
     }
 
-    fun retrieveAllCourses(): List<CourseDTO> {
+    fun retrieveAllCourses(courseName: String?): List<CourseDTO> {
 
-        return courseRepository.findAll()
+        val courses = courseName?.let {
+            courseRepository.findCoursesByName(courseName)
+        } ?: courseRepository.findAll()
+
+        return courses
             .map {
                 CourseDTO(it.id, it.name, it.category)
             }
@@ -39,7 +44,7 @@ class CourseService(val courseRepository: CourseRepository) {
 
     fun updateCourse(courseId: Int, courseDTO: CourseDTO): CourseDTO {
 
-        val existingCourse = courseRepository.findById(courseId)
+        val existingCourse: Optional<Course> = courseRepository.findById(courseId)
 
         return if(existingCourse.isPresent){
             existingCourse.get()
@@ -49,7 +54,7 @@ class CourseService(val courseRepository: CourseRepository) {
                     courseRepository.save(it)
                     CourseDTO(it.id, it.name, it.category)
                 }
-        }else {
+        } else {
             throw CourseNotFoundException("No course found for the passed in Id : $courseId")
         }
     }
@@ -58,12 +63,12 @@ class CourseService(val courseRepository: CourseRepository) {
 
         val existingCourse = courseRepository.findById(courseId)
 
-        if(existingCourse.isPresent){
+        if (existingCourse.isPresent) {
             existingCourse.get()
                 .let {
                     courseRepository.deleteById(courseId)
                 }
-        }else {
+        } else {
             throw CourseNotFoundException("No course found for the passed in Id : $courseId")
         }
     }

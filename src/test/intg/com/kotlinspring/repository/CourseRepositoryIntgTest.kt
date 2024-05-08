@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.web.reactive.server.WebTestClient
 import java.util.stream.Stream
 
 @DataJpaTest
@@ -38,9 +39,9 @@ class CourseRepositoryIntgTest {
     }
 
     @Test
-    fun findCoursesByName(){
+    fun findCoursesbyName(){
 
-        val courses = courseRepository.findCoursesByName("SpringBoot")
+        val courses = courseRepository.findCoursesbyName("SpringBoot")
         println("courses : $courses")
 
         Assertions.assertEquals(2, courses.size)
@@ -51,9 +52,9 @@ class CourseRepositoryIntgTest {
 
     @ParameterizedTest
     @MethodSource("courseAndSize")
-    fun findCoursesByName_approach2(name: String, expectedSize : Int){
+    fun findCoursesbyName_approach2(name: String, expectedSize : Int){
 
-        val courses = courseRepository.findCoursesByName(name)
+        val courses = courseRepository.findCoursesbyName(name)
         println("courses : $courses")
 
         Assertions.assertEquals(expectedSize, courses.size)
