@@ -23,7 +23,7 @@ class CourseController(val courseService : CourseService) {
 
     //courseId
     @PutMapping("/{course_id}")
-    fun updateCourse(@RequestBody @Valid courseDTO: CourseDTO
+    fun updateCourse(@RequestBody courseDTO: CourseDTO
                      , @PathVariable("course_id") courseId : Int)
     = courseService.updateCourse(courseId, courseDTO)
 
